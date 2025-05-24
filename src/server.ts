@@ -1,7 +1,13 @@
+import { connectDB } from './configs/db';
+import { config } from './configs/config';
 import app from './app';
-import mongoose from 'mongoose';
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Finable API by the Lastcode Bender is running on port ${PORT}`);
-});
+const startServer = async () => {
+  await connectDB();
+
+  app.listen(config.port, () => {
+    console.log(`Server running on port ${config.port}`);
+  });
+};
+
+startServer();

@@ -1,17 +1,8 @@
-import express, { Request, Response } from 'express';
-import {
-    createAccount,
-    listAccounts,
-    decryptData,
-    healthCheck
-} from '../controllers/accountController';
+import express from 'express';
+import { createAccountHandler } from '../controllers/accountController';
 
+const router = express.Router();
 
-    const routes = express.Router();
+router.post('/accounts', createAccountHandler);
 
-    routes.get('/health', healthCheck);
-    routes.post('/accounts', createAccount);
-    routes.get('/list', listAccounts);
-    routes.post('/decrypt', decryptData);
-
-    export default routes;
+export default router;

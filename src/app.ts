@@ -1,24 +1,23 @@
 import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import accountRoute from './routes/accountRoute';
+import accountRoutes from './routes/accountRoute';
+import ledgerRoutes from './routes/ledgerRoute';
+import cardRoutes from './routes/cardRoute';
 import { errorHandler } from './middlewares/errorHandler';
-
-
-dotenv.config();
 
 const app = express();
 
+// Middleware
 app.use(express.json());
-app.use('/api/account', accountRoute);
+
+// Routes
+app.use('/api/accounts', accountRoutes);
+app.use('/api/ledger', ledgerRoutes);
+app.use('/api/card', cardRoutes);
 app.use(errorHandler);
 
-mongoose.connect(process.env.MONGODB_URI || '')
-    .then(() => 
-        console.log('Connected to MongoDB'))   
-    .catch(err => {
-        console.error('Failed to connect to MongoDB: ', err);
-        process.exit(1);
-    });
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
 
 export default app;
